@@ -13,4 +13,4 @@ lib.write_gds('first.gds')
 
 cell.write_svg('first.svg')
 
-gs.LayoutViewer()
+gs.LayoutViewer(lib)
