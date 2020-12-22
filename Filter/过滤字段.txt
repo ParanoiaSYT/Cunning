@@ -1,0 +1,29 @@
+#种类一
+Hide 
+    AlternateQuality True
+    GemQualityType Phantasmal
+    BaseType "Smite" "Toxic Rain" 
+    SetTextColor 255 255 255
+    SetBorderColor 255 255 255 0
+    SetFontSize 50
+
+#=====分段二===========
+#种类二
+Show
+    AlternateQuality True
+    GemQualityType Phantasmal
+    BaseType "Leap Slam" "Earthquake" "Summon Skeletons" "Haste"
+    SetTextColor 255 255 255
+    SetBorderColor 255 255 255 0
+    SetFontSize 47
+
+#=====分段二===========
+#=====分段二===========
+#种类三
+Show 
+    AlternateQuality True
+    GemQualityType Anomalous
+    BaseType "Malevolence" "Precision" "Shrapnel Ballista" 
+    SetTextColor 255 255 255
+    SetBorderColor 255 255 255 0
+    SetFontSize 50

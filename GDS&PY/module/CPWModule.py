@@ -23,7 +23,7 @@ class CPW:
     def trans_change(self,v,direction='+y',fw=0,fd=0):
         fd=fw+fd
         self.path1.segment(v,direction,final_width=fw,final_distance=fd)
-        self.length+=v
+        # self.length+=v
 
     # def pad(self,v=300,direction='-x',fw=230,fd=400,ao=200):
     #     fd=fw+fd
@@ -40,7 +40,7 @@ class CPW:
     def cal(self):
         return self.length
 
-    def pad(self, w1=20, d1=12,w2=400,l1=240,l2=400,d2=240, l=100):
+    def pad(self, w1=21.8, d1=12,w2=400,l1=240,l2=400,d2=240, l=100):
         points=[(0,w1/2),(-l1,w2/2),(-l1-l2,w2/2),(-l1-l2,-w2/2),(-l1,-w2/2),(0,-w1/2),\
                 (0,-w1/2-d1),(-l1,-w2/2-d2),(-l1-l2-l,-w2/2-d2),(-l1-l2-l,w2/2+d2),(-l1,w2/2+d2),(0,w1/2+d1)]
         self.poly=gs.Polygon(points,layer=1)
@@ -71,6 +71,9 @@ class CPW:
         gs.LayoutViewer(self.lib)
 
 
+
+# import sys
+# sys.modules[__name__] = CPW()
 
 
 
