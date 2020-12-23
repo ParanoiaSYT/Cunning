@@ -25,20 +25,27 @@ class BiasedSinProcedure(Procedure):
         import math
         from thunderq.waveforms.native.waveform import DC, Sin
 
-        # generate sin waveform
-        sin_waveform = Sin(width=self.duration,
-                           amplitude=self.sin_amplitude,
-                           omega=2*math.pi*self.sin_frequency)
+        # detect if parameters has been updated and we need to write the
+        # waveform
+        if 'sin_amplitude' in self.modified_params or \
+                'sin_frequency' in self.modified_params:
+            # generate sin waveform
+            sin_waveform = Sin(width=self.duration,
+                               amplitude=self.sin_amplitude,
+                               omega=2*math.pi*self.sin_frequency)
 
-        # remove old waveform from the channel
-        self.slice.clear_waveform(self.sin_channel)
-        self.slice.add_waveform(self.sin_channel, sin_waveform)
+            # remove old waveform from the channel
+            self.slice.clear_waveform(self.sin_channel)
+            self.slice.add_waveform(self.sin_channel, sin_waveform)
 
-        # generate bias waveform
-        bias_waveform = DC(self.duration, self.bias_offset)
+        if 'bias_offset' in self.modified_params:
+            # generate bias waveform
+            bias_waveform = DC(self.duration, self.bias_offset)
 
-        self.slice.clear_waveform(self.bias_channel)
-        self.slice.add_waveform(self.bias_channel, bias_waveform)
+            self.slice.clear_waveform(self.bias_channel)
+            self.slice.add_waveform(self.bias_channel, bias_waveform)
+
+        self.modified_params = []
 
     def post_run(self):
         pass
@@ -61,7 +68,7 @@ class PureAcquisitionProcedure(Procedure):
         # post_run method may return a dict as its result, with the key to be
         # the name of the result
         import time
-        time.sleep(1)  # simulate the time consumed when acquiring data
+        time.sleep(1)
         ret = self.digitizer.fetch_average()
         return {
             'ch1_amplitude': ret[0][0],
@@ -128,6 +135,24 @@ cycle.bias_sin_procedure.sin_frequency = 1e6
 cycle.bias_sin_procedure.sin_amplitude = 1
 cycle.bias_sin_procedure.bias_offset = 1
 
-
-
 ret = cycle.run()
+
+# print the result with the _logger_ inside runtime
+# print(ret)
+runtime.logger.log(ret)
+
+
+# construct a scan
+from thunderq.experiment import Sweep1DExperiment
+import numpy as np
+exp = Sweep1DExperiment(runtime, "SinFrequencyScan", cycle)
+
+# just to make the sequence plot more precise
+# usually it is 1e6
+# turning it into 1e9 is simply for this demonstration
+sequence.sequence_plot_sample_rate = 1e9
+
+exp.sweep(scan_param="bias_sin_procedure.sin_amplitude",
+          points=np.linspace(0.5e6, 1.5e6, 11),
+          scan_param_unit="arb.",
+          result_name='ch1_amplitude')
