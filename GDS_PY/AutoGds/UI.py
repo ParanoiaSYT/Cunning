@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkinter import messagebox,filedialog,colorchooser
 from Calculator import *
 from Resonant import *
+import frozen_dir   #冻结路径
+
 
 
 root=Tk()
@@ -134,7 +136,8 @@ e13.grid(row=row_design+2,column=2,padx=10,pady=5)
 
 
 ## Photo Insertion
-photo=PhotoImage(file='/Users/sunyuting/Cunning/GDS_PY/AutoGds/cpw.gif')
+fileaddress=frozen_dir.app_path()
+photo=PhotoImage(file='%s/cpw.gif'%fileaddress)
 # 注意Tkinter只支持gif图片，就算改后缀也没用!
 
 imageLabel=Label(root,image=photo)
