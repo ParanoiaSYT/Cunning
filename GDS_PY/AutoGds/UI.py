@@ -165,7 +165,7 @@ def syn():
     V9.set(str(result[1]*1000))
 
 def saveaddress():
-    fileName=filedialog.asksaveasfilename(defaultextension=".gds",filetypes=[("PNG",".png"),("GIF",".gif"),("Python",".py")])
+    fileName=filedialog.asksaveasfilename(defaultextension=".gds",filetypes=[("GDS",".gds")])
     # 限定和自动添加文件后缀
     print(fileName)
 
