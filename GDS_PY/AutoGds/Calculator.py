@@ -4,7 +4,7 @@ from math import *
 
 class CALC:
 #### 这里单位为mm,MHz,ohm
-    def __init__(self, e0, s0,h0,fo,w0=6500,z0=50):
+    def __init__(self, e0, s0,h0,fo,w0=0.06,z0=50):
         # w is the width of center conductor, d is the width of gap
         self.w0=w0
         self.e0 =e0

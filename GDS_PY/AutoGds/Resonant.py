@@ -62,25 +62,25 @@ class CPW:
         self.htext1=gs.Text(text=text,size=size,layer=2)
         self.cell.add(self.htext1)
 
-    def resonator(self,L,X,Y=0):
+    def resonator(self,L,X=0,Y=0):
         r=25
-        l1=198
-        l2=229
-        l=(L-3901.74)/10
-
+        l1=121.2
+        l2=182.2
+        l=(L-3900)/14
+        self.path1 = gs.Path(self.d, (X, Y+2.5), number_of_paths=2, distance=self.D)
         self.path1.segment(120,direction='+y')
         self.path1.turn(r,-np.pi/2)
-        self.path1.segment(100,"+x")
+        self.path1.segment(80,"+x")
         self.path1.turn(r,np.pi)
-        self.path1.segment(250,"-x")
+        self.path1.segment(234,"-x")
         self.path1.turn(r,-np.pi)
-        self.path1.segment(250, "+x")
+        self.path1.segment(234, "+x")
         self.path1.turn(r, np.pi)
-        self.path1.segment(250, "-x")
+        self.path1.segment(234, "-x")
         self.path1.turn(r, -np.pi)
-        self.path1.segment(250, "+x")
+        self.path1.segment(234, "+x")
         self.path1.turn(r, np.pi)
-        self.path1.segment(250, "-x")
+        self.path1.segment(234, "-x")
         self.path1.turn(r, -np.pi)
         self.path1.segment(l2+l,"+x")
         self.path1.turn(r, np.pi)
@@ -92,13 +92,24 @@ class CPW:
         self.path1.turn(r, -np.pi)
         self.path1.segment(l1+2*l, "+x")
         self.path1.turn(r, np.pi)
-        self.path1.segment(l2+l, "-x")
+        self.path1.segment(l1 + 2 * l, "-x")
         self.path1.turn(r, -np.pi)
+        self.path1.segment(l1 + 2 * l, "+x")
+        self.path1.turn(r, np.pi)
+        self.path1.segment(l2+l, "-x")
+
+        self.path1.turn(r, -np.pi / 2)
+        self.path1.segment(100, '+y')
+        self.path1.turn(r, -np.pi / 2)
         self.path1.segment(300, "+x")
 
-        self.length += r * 2*np.pi*6.25+120+300+250*5+(l2+l)*2+(l1+2*l)*4
+        self.cell.add(self.path1)
+        self.length += r * 2*np.pi*7.25+120+300+250*5+(l2+l)*2+(l1+2*l)*6
 
-    def sink(self,X,Y=0):
+
+
+
+    def sink(self,X=0,Y=0):
         points1 = [(X - 5, Y - 2.5), (X - 5, Y + 2.5), (X - 79, Y + 2.5), (X - 79, Y - 83), (X - 39, Y - 83),
                    (X - 39, Y - 17.5), (X + 39, Y - 17.5), (X + 39, Y - 83), (X + 79, Y - 83),
                    (X + 79, Y + 2.5), (X + 5, Y + 2.5), (X + 5, Y - 2.5), (X + 74, Y - 2.5), (X + 74, Y - 78),
@@ -107,7 +118,7 @@ class CPW:
         poly1 = gs.Polygon(points1)
         self.cell.add(poly1)
 
-    def ten(self,X,Y=0):
+    def ten(self,X=0,Y=0):
         points2 = [(X - 36, Y - 20.5), (X - 36, Y - 160.5), (X - 124, Y - 160.5), (X - 124, Y - 148.5),
                    (X - 182, Y - 148.5), (X - 182, Y - 244.5), (X - 124, Y - 244.5), (X - 124, Y - 232.5),
                    (X - 36, Y - 232.5), (X - 36, Y - 318.5), (X - 9, Y - 318.5), (X - 9, Y - 314.5),
@@ -133,7 +144,7 @@ class CPW:
     def save(self,name='test.gds'):
         self.cell.add(self.path1)
         self.lib.write_gds(name)
-        gs.LayoutViewer(self.lib)
+        # gs.LayoutViewer(self.lib)
 
 
 
@@ -145,7 +156,7 @@ class CPW:
 if __name__=='__main__':
     a=CPW(10,6)
 
-    a.resonator(4500,0,0)
+    a.resonator(5000,0,0)
     a.ten(0,0)
     a.sink(0,0)
     # a.number('NJU')

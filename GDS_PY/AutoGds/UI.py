@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox,filedialog,colorchooser
 from Calculator import *
-
+from Resonant import *
 
 
 root=Tk()
@@ -123,9 +123,11 @@ e10.grid(row=row_design,column=2,padx=10,pady=5)
 e11=Entry(root)
 e11.grid(row=row_design,column=6,padx=10,pady=5)
 
+# num
 e12=Entry(root)
 e12.grid(row=row_design+1,column=2,padx=10,pady=5)
 
+# interval
 e13=Entry(root)
 e13.grid(row=row_design+2,column=2,padx=10,pady=5)
 
@@ -166,6 +168,27 @@ def saveaddress():
     fileName=filedialog.asksaveasfilename(defaultextension=".gds",filetypes=[("PNG",".png"),("GIF",".gif"),("Python",".py")])
     # 限定和自动添加文件后缀
     print(fileName)
+
+    b=CPW(10,6)
+    e0 = float(e1.get())
+    s = float(e2.get()) / 1000
+    h = float(e3.get()) / 1000
+    f_min=float(e10.get())*1000
+    interval=float(e13.get())
+    num=int(e12.get())
+    X=0
+    while num:
+        cal=CALC(e0,s,h,f_min)
+        res = cal.analyse()
+        length=res[1]*1000
+        b.resonator(length,X=X)
+        b.sink(X=X)
+        b.ten(X=X)
+        X+=384
+        num-=1
+        f_min+=interval
+
+    b.save(fileName)
 
 
 
