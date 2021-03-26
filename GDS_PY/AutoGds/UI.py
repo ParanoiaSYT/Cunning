@@ -134,7 +134,7 @@ e13.grid(row=row_design+2,column=2,padx=10,pady=5)
 
 
 ## Photo Insertion
-photo=PhotoImage(file='cpw.gif')
+photo=PhotoImage(file='/Users/sunyuting/Cunning/GDS_PY/AutoGds/cpw.gif')
 # 注意Tkinter只支持gif图片，就算改后缀也没用!
 
 imageLabel=Label(root,image=photo)

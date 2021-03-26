@@ -1,0 +1,1 @@
+([('UI', '/Users/sunyuting/Cunning/GDS_PY/AutoGds/dist/UI', 'EXECUTABLE')],)
