@@ -141,6 +141,44 @@ class CPW:
         cap_fin = gs.boolean(poly2, poly3, "not")
         self.cell.add(cap_fin)
 
+    def drive_line(self,X=0,Y=0):
+        points4 = [(X - 11, Y - 321.5), (X + 11, Y - 321.5), (X + 11, Y - 323.5), (X - 11, Y - 323.5)]
+
+        points5 = [(X + 2, Y - 323.5), (X + 2, Y - 329.5), (X + 4, Y - 329.5), (X + 4, Y - 323.5)]
+
+        points6 = [(X - 2, Y - 329.5), (X - 5, Y - 329.5), (X - 5, Y - 327.5), (X - 2, Y - 327.5)]
+
+        points7 = [(X - 30, Y - 335.5), (X - 22, Y - 335.5), (X - 22, Y - 337.5), (X - 30, Y - 337.5)]
+
+        poly4 = gs.Polygon(points4)
+        poly5 = gs.Polygon(points5)
+        poly6 = gs.Polygon(points6)
+        poly7 = gs.Polygon(points7)
+
+        path1 = gs.Path(2, (X, Y - 329.5), number_of_paths=2, distance=6)
+        path1.segment(94, "-y")
+        path1.turn(25, "l")
+        path1.turn(25, "r")
+        path1.segment(15.5, "-y")
+        path1.segment(6, final_width=5, final_distance=15)
+        path1.segment(100, "-y")
+
+        path2 = gs.Path(2, (X - 26, Y - 337.5), number_of_paths=2, distance=6)
+        path2.segment(86, "-y")
+        path2.turn(25, "r")
+        path2.turn(25, "l")
+        path2.segment(15.5, "-y")
+        path2.segment(6, final_width=5, final_distance=15)
+        path2.segment(100, "-y")
+
+        self.cell.add(poly4)
+        self.cell.add(poly5)
+        self.cell.add(poly6)
+        self.cell.add(path1)
+        self.cell.add(poly7)
+        self.cell.add(path2)
+
+
     def save(self,name='test.gds'):
         self.cell.add(self.path1)
         self.lib.write_gds(name)
