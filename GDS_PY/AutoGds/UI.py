@@ -59,6 +59,7 @@ Label(root,text="[um]").grid(row=row_lambda,column=col_lambda+2)
 ## Blank Space
 Label(root,text="================================================================================").grid(row=4,rowspan=2,column=0,columnspan=10)
 Label(root,text="================================================================================").grid(row=row_lambda+1,rowspan=2,column=0,columnspan=10)
+Label(root,text="================================================================================").grid(row=row_design+3,rowspan=2,column=0,columnspan=10)
 
 
 
@@ -70,6 +71,9 @@ Label(root,text="[GHZ]").grid(row=row_design,column=7)
 Label(root,text="Resonant_Num").grid(row=row_design+1,column=1)
 Label(root,text="Resonant_Interval").grid(row=row_design+2,column=1)
 Label(root,text="[MHZ]").grid(row=row_design+2,column=3)
+
+## Sample Box
+Label(root,text="Sample Box:").grid(row=row_design+2,column=5)
 
 
 
@@ -122,7 +126,7 @@ e9.grid(row=row_lambda,column=col_lambda+1,padx=10,pady=5)
 # Design entry
 e10=Entry(root)
 e10.grid(row=row_design,column=2,padx=10,pady=5)
-e11=Entry(root)
+e11=Entry(root,state="readonly")
 e11.grid(row=row_design,column=6,padx=10,pady=5)
 
 # num
@@ -132,6 +136,21 @@ e12.grid(row=row_design+1,column=2,padx=10,pady=5)
 # interval
 e13=Entry(root)
 e13.grid(row=row_design+2,column=2,padx=10,pady=5)
+
+
+
+## Sample box choices
+OPTIONS=[
+        '',
+        "10mm*10mm(24)",
+         "10mm*10mm(28)",
+         "16mm*16mm(44)",
+]
+variable1=StringVar()
+variable1.set("None")
+sb=ttk.OptionMenu(root,variable1,*OPTIONS)
+sb.grid(row=row_design+2,column=6)
+
 
 
 
@@ -172,6 +191,42 @@ def saveaddress():
     # 限定和自动添加文件后缀
     print(fileName)
 
+    b = CPW(10, 6)
+
+    if variable1.get()=="10mm*10mm(24)":
+        print("The Choice:10*10!")
+        t1=10000/7
+        half_distance=10000/2
+        edge = half_distance - 400
+        for i in range(6):
+            b.pad(-edge, (i+1)*t1-half_distance, "right")
+            b.pad(edge, (i+1)*t1-half_distance, "left")
+            b.pad((i+1)*t1-half_distance, -edge, "up")
+            b.pad((i+1)*t1-half_distance, edge, "down")
+
+    elif variable1.get()=="10mm*10mm(28)":
+        t2=10000/8
+        half_distance=10000/2
+        edge=half_distance-400
+        for i in range(7):
+            b.pad(-edge, (i+1)*t2-half_distance, "right")
+            b.pad(edge, (i+1)*t2-half_distance, "left")
+            b.pad((i+1)*t2-half_distance, -edge, "up")
+            b.pad((i+1)*t2-half_distance, edge, "down")
+    elif variable1.get()=="16mm*16mm(44)":
+        t3=16000/12
+        half_distance=16000/2
+        edge=half_distance-400
+        for i in range(11):
+            b.pad(-edge, (i+1)*t3-half_distance, "right")
+            b.pad(edge, (i+1)*t3-half_distance, "left")
+            b.pad((i+1)*t3-half_distance, -edge, "up")
+            b.pad((i+1)*t3-half_distance, edge, "down")
+    else:
+        pass
+
+
+
     b=CPW(10,6)
     e0 = float(e1.get())
     s = float(e2.get()) / 1000
@@ -202,11 +257,11 @@ ttk.Button(root,text="Analyze",width=10,command=ana)\
 ttk.Button(root,text="Synthesis",width=10,command=syn)\
     .grid(row=row_zw,column=col_zw+3,sticky=W,padx=10,pady=5)
 ttk.Button(root,text="Quit",width=10,command=root.quit)\
-    .grid(row=row_design+3,column=7,sticky=E,padx=10,pady=5)
+    .grid(row=row_design+6,column=7,sticky=E,padx=10,pady=5)
 
 # Draw Button
 ttk.Button(root,text="Draw!",width=10,command=saveaddress)\
-    .grid(row=row_design+3,column=4,sticky=E,padx=10,pady=5)
+    .grid(row=row_design+6,column=4,sticky=E,padx=10,pady=5)
 
 # e.delete(0,END)
 # e.insert(0,"默认文本")

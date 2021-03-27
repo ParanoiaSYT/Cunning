@@ -40,10 +40,27 @@ class CPW:
     def cal(self):
         return self.length
 
-    def pad(self, w1=21.8, d1=12,w2=400,l1=240,l2=400,d2=240, l=100):
-        points=[(0,w1/2),(-l1,w2/2),(-l1-l2,w2/2),(-l1-l2,-w2/2),(-l1,-w2/2),(0,-w1/2),\
-                (0,-w1/2-d1),(-l1,-w2/2-d2),(-l1-l2-l,-w2/2-d2),(-l1-l2-l,w2/2+d2),(-l1,w2/2+d2),(0,w1/2+d1)]
+    def pad(self,X=0,Y=0,direction="right"):
+        X=X+227.5
+        w1 = 10
+        d1 = 6
+        w2 =250
+        l1 = 125
+        l2 = 250
+        d2 = 100
+        l = 80
+        points=[(X,w1/2+Y),(-l1+X,w2/2+Y),(-l1-l2+X,w2/2+Y),(-l1-l2+X,-w2/2+Y),(-l1+X,-w2/2+Y),(X,-w1/2+Y),\
+                (X,-w1/2-d1+Y),(-l1+X,-w2/2-d2+Y),(-l1-l2-l+X,-w2/2-d2+Y),(-l1-l2-l+X,w2/2+d2+Y),(-l1+X,w2/2+d2+Y),(X,w1/2+d1+Y)]
         self.poly=gs.Polygon(points,layer=1)
+
+        if direction=='up':
+            self.poly.rotate(np.pi/2,(X-227.5,Y))
+        elif direction=='down':
+            self.poly.rotate(-np.pi/2,(X-227.5,Y))
+        elif direction=='left':
+            self.poly.rotate(np.pi,(X-227.5,Y))
+        else:
+            pass
         self.cell.add(self.poly)
 
     def mark(self,w1=200,d1=20,w2=20,d2=4):
