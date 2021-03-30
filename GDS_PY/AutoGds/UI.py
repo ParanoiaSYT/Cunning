@@ -191,7 +191,15 @@ def saveaddress():
     # 限定和自动添加文件后缀
     print(fileName)
 
-    b = CPW(10, 6)
+    X=0     # 第一个比特位置（默认为0，在选取样品盒大小后略作修改）
+    b=CPW(10,6)
+    e0 = float(e1.get())
+    s = float(e2.get()) / 1000
+    h = float(e3.get()) / 1000
+    f_min=float(e10.get())*1000
+    interval=float(e13.get())
+    num=int(e12.get())
+    X-=int(num/2)*384
 
     if variable1.get()=="10mm*10mm(24)":
         print("The Choice:10*10!")
@@ -225,16 +233,6 @@ def saveaddress():
     else:
         pass
 
-
-
-    b=CPW(10,6)
-    e0 = float(e1.get())
-    s = float(e2.get()) / 1000
-    h = float(e3.get()) / 1000
-    f_min=float(e10.get())*1000
-    interval=float(e13.get())
-    num=int(e12.get())
-    X=0
     while num:
         cal=CALC(e0,s,h,f_min)
         res = cal.analyse()
