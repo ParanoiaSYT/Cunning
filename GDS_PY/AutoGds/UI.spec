@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['UI.py'],
-             pathex=['Calculator.py', 'Resonant.py', '/Users/sunyuting/Cunning/GDS_PY/AutoGds'],
+             pathex=['/Users/sunyuting/Cunning/GDS_PY/AutoGds'],
              binaries=[],
              datas=[],
              hiddenimports=[],
