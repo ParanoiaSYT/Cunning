@@ -45,12 +45,14 @@ def dose_poly(w=30,h=3,l=12,x=0,y=0):
         x_i_1 += delta_x_new[i]
 
     ## 桥墩绘制
-    points_qd_left=[(x - x_i_1, y + l / 2), (x - x_i_1, y - l / 2), (x - x_i_1 - 20, y - l / 2),
-                        (x - x_i_1 - 20, y + l / 2)]
+    qd_width=30
+    qd_l=l+10
+    points_qd_left=[(x - x_i_1, y + qd_l / 2), (x - x_i_1, y - qd_l / 2), (x - x_i_1 - 20, y - qd_l / 2),
+                        (x - x_i_1 - 20, y + qd_l / 2)]
     poly_qd_left = gs.Polygon(points_qd_left, layer=number+11)
     cell.add(poly_qd_left)
-    points_qd_right = [(x + x_i_1, y + l / 2), (x + x_i_1, y - l / 2), (x + x_i_1 + 20, y - l / 2),
-                 (x + x_i_1 + 20, y + l / 2)]
+    points_qd_right = [(x + x_i_1, y + qd_l / 2), (x + x_i_1, y - qd_l / 2), (x + x_i_1 + 20, y - qd_l / 2),
+                 (x + x_i_1 + 20, y + qd_l / 2)]
     poly_qd_right = gs.Polygon(points_qd_right, layer=number + 11)
     cell.add(poly_qd_right)
 
@@ -60,7 +62,16 @@ def save_ab():
 
 
 if __name__=="__main__":
-    dose_poly()
-    dose_poly(l=50,y=60)
-    dose_poly(l=100,y=200)
+    dose_poly(w=30,h=3.2,l=12,x=0,y=0)
+    dose_poly(w=25,h=3.2,l=12,x=0,y=100)
+    dose_poly(w=20,h=3.2,l=12,x=0,y=200)
+
+    dose_poly(w=30, h=3.2, l=20, x=100, y=0)
+    dose_poly(w=25, h=3.2, l=20, x=100, y=100)
+    dose_poly(w=20, h=3.2, l=20, x=100, y=200)
+
+    dose_poly(w=30, h=3.2, l=40, x=200, y=0)
+    dose_poly(w=25, h=3.2, l=40, x=200, y=100)
+    dose_poly(w=20, h=3.2, l=40, x=200, y=200)
+
     save_ab()

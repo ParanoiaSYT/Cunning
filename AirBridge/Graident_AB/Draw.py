@@ -3,7 +3,7 @@ from AirBridge.Graident_AB.GiadientValue import *
 
 
 
-a=Giadient_Design()
+a=Giadient_Design(h=3.2)
 a.grey_calc()
 x,y,ddx=a.coor
 

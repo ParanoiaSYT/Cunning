@@ -1,9 +1,8 @@
-import plistlib
-
+# import plistlib
 from sympy import *
 
 
-x,y,omega=symbols('x y omega')
+x,y,thick=symbols('x y thick')
 
 class Giadient_Design:
     def __init__(self,w=30,h=3,l=12):
@@ -18,7 +17,9 @@ class Giadient_Design:
         self.fx=sqrt(r**2-x**2)-(r-h)
         fy=-1*sqrt(r**2-(y+r-h)**2)
 
-        y_min=self.fx.subs(x,-1*w/2+1)-self.fx.subs(x,-1*w/2)
+        # y_min=self.fx.subs(x,-1*w/2+1)-self.fx.subs(x,-1*w/2)
+        y_min=0.28
+        print(y_min)
 
         turn=0
         self.delta_x=[]
@@ -27,6 +28,7 @@ class Giadient_Design:
         # if fy.subs(y,y_min*(turn+2))<h:
         #     print("111")
 
+        # 根据y_min的倍数来定x的位置
         while 1:
             x1=fy.subs(y,y_min*(turn+1))-fy.subs(y,y_min*turn)
             if y_min*(turn+1)>h:
@@ -46,12 +48,27 @@ class Giadient_Design:
             x_sum += self.delta_x[i]
             self.x_coordinate.append(x_i)
 
+        # 这里是power对于剩余厚度的函数
+        LaserPower= ((16690.539477 -thick)/1.66809672e+04)**(1.02533818e-04**-1)
         for j in range(len(self.delta_x)):
             res = self.fx.subs(x, self.x_coordinate[j])
-            giadent=int(115-res*((115-45)/3))
+            # print(res)
+            gradient=LaserPower.subs(thick,res)
             num=len(self.delta_x)
-            print("第%d个layer的greyvlue为："%(10+num-j)+str(giadent))
+            print("第%d层layer的greyvlue为："%(10+num-j)+str(gradient))
         print("桥面一共有%d层"%num)
+
+
+
+        # # 获取最大剂量和最小剂量
+        # dose_max=140
+        # dose_min=40
+        # for j in range(len(self.delta_x)):
+        #     res = self.fx.subs(x, self.x_coordinate[j])
+        #     giadent=int(dose_max-res*((dose_max-dose_min)/h))
+        #     num=len(self.delta_x)
+        #     print("第%d个layer的greyvlue为："%(10+num-j)+str(giadent))
+        # print("桥面一共有%d层"%num)
 
         return self.delta_x
 
@@ -85,6 +102,6 @@ class Giadient_Design:
 
 
 if __name__=="__main__":
-    a=Giadient_Design()
+    a=Giadient_Design(h=3)
     print(a.grey_calc())
     print(a.coor)
